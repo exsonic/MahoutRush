@@ -19,19 +19,18 @@ import java.util.List;
 
 public class App  {
     public static void main( String[] args ) throws Exception{
-
-	    userBased_CF();
-	    itemBased_CF();
-
+		args = args.length == 0 ? new String[]{"data.txt"} : args;
+	    userBased_CF(args[0]);
+	    itemBased_CF(args[0]);
     }
 
-	static void userBased_CF() throws Exception{
+	static void userBased_CF(String inputDataPath) throws Exception{
 		/**
 		 * This is not scalable
 		 */
 		long userId = 1;
 
-	    FileDataModel dataModel = new FileDataModel(new File("data.txt"));
+	    FileDataModel dataModel = new FileDataModel(new File(inputDataPath));
 		int neighborhoodSize = dataModel.getNumUsers();
 		int recommendItemSize = 2;
 
@@ -51,14 +50,14 @@ public class App  {
 	}
 
 
-	static void itemBased_CF() throws Exception{
+	static void itemBased_CF(String inputDataPath) throws Exception{
 		/**
-		 * This is comparatively better, because we can compute
+		 * This is comparatively better, in practice, because we can compute the items similarties first since it's stable.
 		 */
 		long userId = 1;
 		int recommendItemSize = 2;
 
-		FileDataModel dataModel = new FileDataModel(new File("data.txt"));
+		FileDataModel dataModel = new FileDataModel(new File(inputDataPath));
 
 		ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(dataModel);
 
